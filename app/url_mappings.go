@@ -8,7 +8,11 @@ import (
 func mapUrls()  {
 	router.GET("/health", health.HealthStatus)
 
-	router.GET("/user/:user_id", user.GetUser)
-	router.GET("/users/search", user.SearchUser)
-	router.POST("/users", user.CreateUser)
+	router.POST("/users", user.Create)
+	router.GET("/user/:user_id", user.Get)
+	router.PUT("/user/:user_id", user.Update)
+	router.PATCH("/user/:user_id", user.Update)
+	router.DELETE("/user/:user_id",user.Delete)
+	router.GET("/users/search", user.Search)
+
 }
