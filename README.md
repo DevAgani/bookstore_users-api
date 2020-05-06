@@ -1,4 +1,7 @@
 # Database
+Rename the  `docker-compose-dev.yml` to `docker-compose.yml` and update the values for the passwords
+
+If you don't have `Docker` installed in your local machine follow the steps [here](https://docs.docker.com/engine/install/) to install
 
 Execute `docker-compose up` this will spin up the MySQL Database.
 
