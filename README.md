@@ -21,3 +21,12 @@ CREATE TABLE `users` (
   UNIQUE KEY `email_UNIQUE` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1
 ```
+
+# Environment Variables
+
+TODO
+
+
+# Starting the Application
+
+TODO
