@@ -4,6 +4,7 @@ import "time"
 
 var (
 	apiDateFormat = "2006-01-02T15:04:05Z"
+	apiDBFormat = "2006-01-02 15:04:05"
 )
 
 func GetNow() time.Time  {
@@ -12,4 +13,7 @@ func GetNow() time.Time  {
 
 func GetNowString() string{
  return GetNow().Format(apiDateFormat)
+}
+func GetNowDbFormat() string{
+	return GetNow().Format(apiDBFormat)
 }
