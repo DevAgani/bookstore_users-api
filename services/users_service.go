@@ -2,11 +2,27 @@ package services
 
 import (
 	"github.com/DevAgani/bookstore_users-api/domain/users"
+	"github.com/DevAgani/bookstore_users-api/utils/crypto_utils"
 	"github.com/DevAgani/bookstore_users-api/utils/date_utils"
 	"github.com/DevAgani/bookstore_users-api/utils/errors"
 )
 
-func GetUser(userId int64) (*users.User, *errors.RestErr)  {
+var (
+	UserService usersServiceInterface = &usersService{}
+)
+
+type usersService struct {
+
+}
+type usersServiceInterface interface {
+	GetUser(int64) (*users.User, *errors.RestErr)
+	CreateUser(users.User) (*users.User, *errors.RestErr)
+	UpdateUser(bool, users.User) (*users.User, *errors.RestErr)
+	DeleteUser(int64) *errors.RestErr
+	Search(string)(users.Users,*errors.RestErr)
+}
+
+func (s *usersService) GetUser(userId int64) (*users.User, *errors.RestErr)  {
  result := &users.User{Id: userId}
  if err := result.Get(); err != nil{
    return nil,err
@@ -14,21 +30,22 @@ func GetUser(userId int64) (*users.User, *errors.RestErr)  {
  return result,nil
 }
 
-func CreateUser(user users.User) (*users.User, *errors.RestErr) {
+func (s *usersService) CreateUser(user users.User) (*users.User, *errors.RestErr) {
 	if err := user.Validate(); err != nil {
 		return nil, err
 	}
 	user.DateCreated = date_utils.GetNowDbFormat()
 	user.Status = users.ActiveStatus
+	user.Password = crypto_utils.GetMd5(user.Password)
 	if err := user.Save(); err != nil {
 		return nil, err
 	}
 	return &user, nil
 }
 
-func UpdateUser(isPatch bool,user users.User) (*users.User, *errors.RestErr) {
-	current, err := GetUser(user.Id)
-	if err != nil{
+func (s *usersService) UpdateUser(isPatch bool,user users.User) (*users.User, *errors.RestErr) {
+	current := &users.User{Id:user.Id}
+	if err := current.Get();err != nil{
 		return nil,err
 	}
 	if isPatch{
@@ -53,12 +70,12 @@ func UpdateUser(isPatch bool,user users.User) (*users.User, *errors.RestErr) {
 	return current,nil
 }
 
-func DeleteUser(userId int64) *errors.RestErr{
+func (s *usersService)  DeleteUser(userId int64) *errors.RestErr{
 	user := &users.User{Id:userId}
 	return user.Delete()
 }
 
-func Search(status string)([]users.User,*errors.RestErr)  {
+func (s *usersService) Search(status string)(users.Users,*errors.RestErr)  {
 	dBresult := &users.User{}
 	return dBresult.FindByStatus(status)
 }
