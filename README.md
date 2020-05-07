@@ -9,13 +9,15 @@ Execute `docker-compose up` this will spin up the MySQL Database.
 This statement should only be run once, this will create the users table
 
 ```
-CREATE TABLE `users_db`.`users`(
-	`id` BIGINT(24) NOT NULL auto_increment,
-    `first_name` VARCHAR(45) NULL,
-    `last_name` VARCHAR(45) NULL,
-    `email` VARCHAR(45) NOT NULL,
-    `date_created` VARCHAR(45) NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE INDEX `email_UNIQUE` (`email` ASC)
-)
+CREATE TABLE `users` (
+  `id` bigint(24) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(45) NOT NULL,
+  `last_name` varchar(45) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `date_created` datetime NOT NULL,
+  `status` varchar(45) NOT NULL,
+  `password` varchar(65) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email_UNIQUE` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1
 ```
